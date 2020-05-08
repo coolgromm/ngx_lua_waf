@@ -1,6 +1,6 @@
 require 'config'
 local match = string.match
-local ngxmatch=ngx.re.match
+local ngxmatch=ngx.re.find
 local unescape=ngx.unescape_uri
 local get_headers = ngx.req.get_headers
 local optionIsOn = function (options) return options == "on" and true or false end
@@ -15,11 +15,11 @@ attacklog = optionIsOn(attacklog)
 CCDeny = optionIsOn(CCDeny)
 Redirect=optionIsOn(Redirect)
 function getClientIp()
-        IP  = ngx.var.remote_addr 
-        if IP == nil then
-                IP  = "unknown"
-        end
-        return IP
+    IP  = ngx.var.remote_addr 
+    if IP == nil then
+        IP  = "unknown"
+    end
+    return IP
 end
 function write(logfile,msg)
     local fd = io.open(logfile,"ab")
@@ -80,7 +80,7 @@ function whiteurl()
             for _,rule in pairs(wturlrules) do
                 if ngxmatch(ngx.var.uri,rule,"isjo") then
                     return true 
-                 end
+                end
             end
         end
     end
@@ -91,9 +91,9 @@ function fileExtCheck(ext)
     ext=string.lower(ext)
     if ext then
         for rule in pairs(items) do
-            if ngx.re.match(ext,rule,"isjo") then
-	        log('POST',ngx.var.request_uri,"-","file attack with ext "..ext)
-            say_html()
+            if ngx.re.find(ext,rule,"isjo") then
+                log('POST',ngx.var.request_uri,"-","file attack with ext "..ext)
+                say_html()
             end
         end
     end
@@ -233,13 +233,13 @@ function whiteip()
 end
 
 function blockip()
-     if next(ipBlocklist) ~= nil then
+    if next(ipBlocklist) ~= nil then
          for _,ip in pairs(ipBlocklist) do
-             if getClientIp()==ip then
-                 ngx.exit(403)
-                 return true
-             end
-         end
-     end
-         return false
+            if getClientIp()==ip then
+                ngx.exit(403)
+                return true
+            end
+        end
+    end
+        return false
 end
