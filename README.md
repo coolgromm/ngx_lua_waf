@@ -12,5 +12,5 @@ http2.0 环境下调用 ngx.req.socket() 会抛异常，为了不影响正常使
 stack traceback:
 coroutine 0:
 	[C]: in function 'socket'
-	/etc/nginx/waf/waf.lua:21: in function </etc/nginx/waf/waf.lua:1>, client: 113.116.179.158, server: api.lingtianzhongmei.com, request:
+	/etc/nginx/waf/waf.lua:21: in function </etc/nginx/waf/waf.lua:1>, client: 113.116.179.158, server: api.xxx.com, request:
 ```
